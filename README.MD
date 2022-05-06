@@ -1,12 +1,13 @@
-# Dream Bazaar Multi-Product Ecommerce Application 
+# Dev Story 
 
-Dream Bazaar is Multi-Product and Vendor Ecommerce website, build with Nodejs, React js and Mongodb
+dev-story is a blogger website. here user can write their own story, other story like comment,
+In This Project build I use Nodejs, React and Mongodb, Redis as a caching storage
 
 
 
 ### This Application under development
 
-Live Link https://dream-bazar.vercel.app/
+Live Link https://rsl-my-blog.netlify.app/
 
 ### Preview screenshot
 
