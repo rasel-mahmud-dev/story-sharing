@@ -1,0 +1,18 @@
+<svg width="5px" height="5px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 15.04 16">
+    <defs>
+        <style>
+            .cls-1{fill:#00bed8;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}
+        </style>
+        <linearGradient id="linear-gradient" x1="-1.3" y1="8.08" x2="15.76" y2="8.08" gradientUnits="userSpaceOnUse">
+        <stop offset="0.2" stop-color="#00aeef"/>
+        <stop offset="0.53" stop-color="#01acee"/>
+        <stop offset="0.65" stop-color="#03a6e8" stop-opacity="0.99"/>
+        <stop offset="0.74" stop-color="#079bdf" stop-opacity="0.98"/>
+        <stop offset="0.81" stop-color="#0d8bd2" stop-opacity="0.96"/>
+        <stop offset="0.87" stop-color="#1576c2" stop-opacity="0.94"/>
+        <stop offset="0.92" stop-color="#1e5dad" stop-opacity="0.91"/>
+        <stop offset="0.97" stop-color="#293f95" stop-opacity="0.88"/>
+        <stop offset="0.98" stop-color="#2b3990" stop-opacity="0.87"/><stop offset="0.98" stop-color="#393590" stop-opacity="0.84"/>
+        <stop offset="0.99" stop-color="#61298f" stop-opacity="0.74"/><stop offset="0.99" stop-color="#a4158d" stop-opacity="0.58"/>
+        <stop offset="1" stop-color="#ec008c" stop-opacity="0.4"/>
+    </linearGradient><linearGradient id="linear-gradient-2" x1="2.31" y1="8.16" x2="11.48" y2="8.16" gradientUnits="userSpaceOnUse"><stop offset="0.17" stop-color="#f15a29"/><stop offset="0.2" stop-color="#f16029" stop-opacity="0.99"/><stop offset="0.53" stop-color="#f5ac2e" stop-opacity="0.89"/><stop offset="0.78" stop-color="#f8db31" stop-opacity="0.82"/><stop offset="0.92" stop-color="#f9ed32" stop-opacity="0.8"/></linearGradient></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M14.73,15.55C-.29,16.4-.64,16.62.31.31,15.33-.55,15.67-.76,14.73,15.55Z"/><path class="cls-2" d="M12,15.69C-.08,16.55-.35,16.76.41.46,12.52-.4,12.8-.61,12,15.69Z"/><path class="cls-3" d="M4.08,3.21A12.63,12.63,0,0,1,6.46,3a4.18,4.18,0,0,1,2.78.74,2.14,2.14,0,0,1,.84,1.79A2.41,2.41,0,0,1,8.37,7.76v0a2.61,2.61,0,0,1,2.08,2.54,2.75,2.75,0,0,1-.85,2,5.11,5.11,0,0,1-3.49,1,13.53,13.53,0,0,1-2-.13ZM5.39,7.37H6.57c1.38,0,2.19-.73,2.19-1.7C8.76,4.48,7.86,4,6.54,4a5.93,5.93,0,0,0-1.15.09Zm0,4.86a6.28,6.28,0,0,0,1.09.06c1.35,0,2.59-.5,2.59-2s-1.18-2-2.61-2H5.39Z"/></g></g></svg>

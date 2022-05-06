@@ -1,0 +1,10 @@
+node_modules
+previews
+dist
+deploy.sh
+cache
+.netlify
+fortawesome
+src/in.html
+.idea
+

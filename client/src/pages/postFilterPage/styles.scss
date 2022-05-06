@@ -1,0 +1,41 @@
+
+.posts_wrapper {
+  padding: 10px;
+  .filter_items {
+    .search_text {
+      color: #5659bb;
+    }
+  }
+}
+
+.post {
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background: #efefef;
+  padding: 5px;
+
+  .post-meta{
+    i{
+      color: #575757;
+    }
+    span{
+      font-size: 14px;
+      margin-left: 5px;
+      font-weight: 400;
+    }
+  }
+}
+
+.post_author_action{
+  i{
+    font-size: 14px;
+  }
+}
+
+.post_cover{
+  min-width: 100px;
+  .post_img{
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+}

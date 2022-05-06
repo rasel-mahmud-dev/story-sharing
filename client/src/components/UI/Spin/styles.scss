@@ -1,0 +1,41 @@
+.spinner{
+  position: relative;
+  width: 20px;
+  height: 20px;
+  //border: 3px solid #cbcbcb;
+  //border-radius: 100px;
+  
+  .base-loader{
+    width: inherit;
+    display: inline-block;
+    height: inherit;
+    border-radius: 100px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border: 3px solid #cbcbcb;
+    margin: 0 !important;
+  }
+  
+  .overlay-loader{
+    width: inherit;
+    display: inline-block;
+    height: inherit;
+    border: 3px solid transparent;
+    border-radius: 100px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    border-right-color: red;
+    animation: spin 1s linear infinite;
+    z-index: 1;
+    margin: 0 !important;
+  }
+  
+  @keyframes spin {
+    0%{transform: rotate(0deg)}
+    100%{transform: rotate(360deg)}
+  }
+  
+}
+

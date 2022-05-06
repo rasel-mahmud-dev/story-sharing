@@ -1,0 +1,23 @@
+
+
+.add-post-form{
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.add-post__cover{
+  width: 100%;
+  img{
+    width: 100%;
+  }
+}
+
+.rc-md-editor {
+  width: 100%;
+}
+.alert-message{
+  position: fixed;
+    /* width: 100%; */
+    left: 50%;
+    transform: translateX(-50%);
+}

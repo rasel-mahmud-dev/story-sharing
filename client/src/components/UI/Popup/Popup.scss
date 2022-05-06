@@ -1,0 +1,33 @@
+.popup{
+  box-shadow: 0 2px 5px 1px #b5b3b3b0;
+  /* padding: 10px; */
+  /* margin: 10px; */
+  min-width: max-content;
+  display: block;
+}
+
+
+.my-popup{
+  color: red !important;
+   transition: all 1s ease;
+  &-enter {
+    opacity: 0;
+    transform: translateY(300px);
+   transition: all 1s ease;
+  }
+  &-enter-active {
+    opacity: 1;
+     transform: translateY(0px);
+    transition: all 1s ease;
+  }
+  &-exit {
+    opacity: 1;
+    transform: translateY(0px);
+       transition: all 1s ease;
+  }
+  &-exit-active {
+      opacity: 0;
+      transition: all 1s ease;
+  }
+    
+}

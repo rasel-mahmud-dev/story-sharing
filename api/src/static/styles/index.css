@@ -1,0 +1,108 @@
+
+
+body{
+  font-family: Roboto, serif;
+  font-weight: 400;
+}
+*{
+  font-weight: 400;
+}
+
+.container{
+  max-width: 992px;
+  margin: auto;
+}.container-1000{
+   max-width: 1000px;
+   margin: auto;
+ }
+.container-1200{
+  max-width: 1200px;
+  margin: 0 10px;
+}.container-1400{
+   max-width: 1400px;
+   margin: auto;
+ }
+
+
+
+.btn {
+  outline: none;
+  border: none;
+  padding: 4px 8px;
+  background: white;
+  box-shadow: 0 1px 6px 0px rgb(94 94 94 / 63%);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #5e76ff;
+  color: white;
+}
+.btn-primary:hover{
+  background: #3a57ff;
+}
+
+.card{
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px 0px rgb(94 94 94 / 63%);
+  padding: 10px;
+}
+.login-modal__wrapper{
+  position: fixed;
+  width: 100%;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 500px;
+}
+.login-modal{
+  display: flex;
+  width: 100%;
+}
+.login-modal form{
+  width: 100%;
+  display: block;
+  padding: 10px;
+}
+.form-group{
+  margin: 10px 0;
+}
+input{
+  width: 100%;
+
+}
+
+.title{
+  font-family: Roboto;
+}
+.text-blue-700{
+  color: #6b66f8;
+}
+.my-1{
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.files_table{border-collapse: collapse}
+.files_table th{
+  background: #dedede;
+}
+.files_table tbody tr:hover{
+  background: #dedede;
+}
+.px-4{padding-left: 16px; padding-right: 16px}
+.text-xs{ font-size: 14px;}
+.whitespace-nowrap{white-space: nowrap}
+.my-2{
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.cursor-pointer{
+ cursor: pointer;
+}
+.flex{display: flex}
+.item-center{align-items: center}
+.ml-4{margin-left: 16px}
+.ml-2{margin-left: 4px}

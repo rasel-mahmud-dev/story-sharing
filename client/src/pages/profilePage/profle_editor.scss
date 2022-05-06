@@ -1,0 +1,24 @@
+
+
+@import "src/scss/--breakpoint";
+
+.profile-edit-form{
+
+  top: 10%;
+  @include down_md{
+    min-width: 90%;
+  }
+  
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 900px;
+  .rounded-5{
+    border-radius: 4px;
+  }
+}
+
+
+//.profile_form_label {
+//  @apply font-medium min-w-150 block text-sm font-400 text-gray-dark-4;
+//}

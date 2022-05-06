@@ -1,0 +1,33 @@
+.files_table{
+  border-collapse: collapse;
+  width: 100%;
+  th{
+    @apply dark:bg-dark-600 bg-gray-200;
+    font-weight: 400;
+    padding: 5px 10px;
+  }
+}
+
+.file_content{
+  pre{
+    white-space: pre-wrap;
+  }
+}
+.editor{
+  border: 2px solid #6997ec;
+  outline: none;
+  width: 100%;
+  min-height: 400px;
+  padding: 5px
+}
+
+.highlight-focus{
+  background: #ffe8b5 !important;
+  animation: shake .3s ease-in;
+}
+
+@keyframes shake {
+  0%{ transform: translateX(-20px) }
+  50%{ transform: translateX(20px) }
+  100%{ transform: translateX(0) }
+}

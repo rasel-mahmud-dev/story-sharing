@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+    <title>Admin HomePage</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js" integrity="sha512-u9akINsQsAkG9xjc1cnGF4zw5TFDwkxuc9vUp5dltDWYCSmyd0meygbvgXrlc/z7/o4a19Fb5V0OUE58J7dcyw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body class="container">
+
+<header>
+    <!--    <%- include('../partials/header'); %>-->
+</header>
+
+<main class="container-1200">
+    <h1 class="title"><%- message %></h1>
+
+    <div class="flex item-center">
+        <h4>Your Markdown directory</h4>
+        <form action="/admin/upload/file" class="ml-2 flex" method="post" enctype="multipart/form-data">
+            <input type="text" value="markdown" name="dirType" hidden>
+            <input type="file" placeholder="upload markdown file"  name="markdown">
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+    <table class="files_table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Modify At</th>
+            <th>Size</th>
+            <th>Path</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <% markdown.forEach(function(item) { %>
+            <tr>
+                <td class="text-blue-700 my-1 px-1">
+                    <span class="text-sm text-blue-700 my-2 cursor-pointer"><%- item.name %></span>
+                </td>
+                <td class="text-blue-700 my-1 px-4">
+                 <span class="text-xs whitespace-nowrap">
+                     <%- new Date(item.modifyTime).toDateString() %>
+                     <%- new Date(item.modifyTime).toLocaleTimeString() %>
+                    </span>
+                </td>
+                <td class="text-blue-700 my-1 px-4">
+                    <span class="text-sm text-blue-700 my-2 cursor-pointer"><%- item.size%></span>
+                </td>
+                <td class="text-blue-700 my-1">
+                    <span class="text-sm text-blue-700 my-2 cursor-pointer"><%- item.path%></span>
+                </td>
+
+            </tr>
+        <% }); %>
+
+        </tbody>
+    </table>
+
+</main>
+
+<footer>
+
+</footer>
+
+<script >
+
+	// axios.get("/api/files?admin=true").then(res=>{
+	// 	if(res.status >= 200 && res.status <= 400){
+	// 		console.log(res)
+	// 		// setState({
+	// 		// 	markdownFiles: res.data.markdownFiles,
+	// 		// 	databaseFiles: res.data.databaseFiles
+	// 		// })
+	// 	}
+	// }).catch(err=>{
+	// 	console.log(err)
+    // })
+
+
+</script>
+
+</body>
+</html>

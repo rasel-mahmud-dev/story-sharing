@@ -1,0 +1,47 @@
+
+
+
+@mixin inline-animation($duration, $count) {
+  $name: inline-#{unique-id()};
+  @keyframes #{$name} {
+    @content
+  }
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-iteration-count: $count;
+}
+
+@mixin inline-animation-linear($duration, $count) {
+  $name: inline-#{unique-id()};
+  @keyframes #{$name} {
+    @content
+  }
+  animation-timing-function: linear;
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-iteration-count: $count;
+}
+
+@mixin scrollbar{
+  
+  &::-webkit-scrollbar{
+    width: 6px;
+    opacity: 0 !important;
+    visibility: hidden;
+  }
+  &::-webkit-scrollbar-thumb{
+    background: #E5E3E3FF;
+    border-radius: 100px;
+    //opacity: 0;
+    
+  }
+  
+  &::-webkit-scrollbar-track{
+    //background-color: transparent !important;
+    background: rgba(255, 255, 255, 0.53);
+    opacity: 0 !important;
+    visibility: hidden;
+  }
+  
+  
+}

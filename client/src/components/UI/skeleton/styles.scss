@@ -1,0 +1,62 @@
+
+.dark{
+  .circle{background: #3f3f3f;}
+  .line{background: #3f3f3f;}
+  .skeleton_group{
+    background: transparent;
+  }
+  .line::after,
+  .circle::after{
+    background-image:
+      linear-gradient(to right,
+        #565656 0%, rgba(0,0,0,0.05) 20%, #505050 40%,
+        #575757 100%);
+  }
+}
+
+.skeleton_group{
+  width: 100%;
+  background: transparent;
+}
+
+.line::after,
+.circle::after{
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background-image:
+    linear-gradient(to right,
+      #d9d9d9 0%, rgba(0,0,0,0.05) 20%, #adadad 40%,
+      #d9d9d9 100%);
+
+  //background-image: radial-gradient(0, #5e5e5e, #464646);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  animation: shimmer 1s linear infinite;
+}
+
+@keyframes shimmer {
+  0%{background-position: -450px 0;}
+  100%{
+    background-position: 450px 0;
+  }
+}
+
+.line {
+  height: 45px;
+  width: 100%;
+  background: #e1e1e1;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.circle{
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  position: relative;
+  background: #d9d9d9;
+  overflow: hidden;
+}

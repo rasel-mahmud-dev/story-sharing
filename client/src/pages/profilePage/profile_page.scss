@@ -1,0 +1,53 @@
+@import "src/scss/--breakpoint";
+
+.background_cover{
+  //background-image: url(http://localhost:3000/static/logrocket-blog-header.png);
+  color: white;
+  min-height: 450px;
+  background-position: top;
+  background-size: cover;
+}
+.overlay{
+  max-width: 100%;
+  margin: 0 auto;
+  min-height: 450px;
+  background: rgba(35,29,29,.5);
+  padding: 3rem 2rem;
+  color: #fff;
+
+  .overlay-title{
+    margin-top: 70px;
+    line-height: 50px;
+  }
+
+}
+@media screen and (max-width: 800px) {
+
+  .background_cover{
+    min-height: 200px;
+  }
+  .overlay{
+    min-height: 200px;
+    .overlay-title{
+      margin-top: 0px;
+      line-height: 50px;
+    }
+  }
+}
+
+.own-post{
+  &:hover{
+    .action{
+      display: flex;
+    }
+  }
+  .action{
+    display: none;
+  }
+}
+
+.user-content-wrapper{
+  @include down_sm{
+    padding: 0 10px;
+  }
+}
