@@ -22,6 +22,7 @@ api/.gita
 api/.idea
 api/dist
 api/.env
+api/app_markdown
 api/markdown
 api/src/drive
 api/src/dropbox
