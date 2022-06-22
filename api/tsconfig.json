@@ -1,28 +1,30 @@
 {
   "compilerOptions": {
-    //    "module": "ESNext",
-    "strict": false,
-    "noImplicitAny": false,
-    "module": "CommonJS",
-    "target": "es6",
-    "rootDir": "src", // include src dir
+    "target": "es2015",
+    "module": "commonjs",
+    "strict": true,
     "allowJs": true,
     "esModuleInterop": true,
-    "sourceRoot": "./src",
-    "inlineSourceMap": true,
-//    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "jsx": "react",
     "outDir": "dist",
-    "lib": ["es2021"]
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "src",
+    "sourceRoot": ".",
+    "inlineSourceMap": true,
+    "resolveJsonModule": true
   },
-  "include": ["src/"],
+  "include": [
+    "src",
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
   "ts-node": {
     "compilerOptions": {
       "module": "CommonJS"
-    }
+    },
+    "transpileOnly": true,
   }
 }
-
-// "engines": {
-//   "node": "16.12.0"
-// },

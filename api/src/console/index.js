@@ -1,8 +1,5 @@
 export default  ()=> {
-	
 	if(process.env.NODE_ENV === "development") {
-		
-		
 		['log', 'info'].forEach((methodName) => {
 			const originalMethod = console[methodName];
 			console[methodName] = (...args) => {

@@ -9,7 +9,7 @@ function RenderPosts(props){
 
 	return React.useMemo(() => {
 		return posts && posts.map((post, i)=>(
-			<PreLoad key={i} to={`/posts/${post.slug}/${post.post_id}`} className="post_link_a">
+			<PreLoad key={i} to={`/posts/${post.slug}/${post._id}`} className="post_link_a">
 				<div className="flex mt-8 justify-between flex-col sm:flex-row">
 					<div className="mr-4 flex-5 order-1">
 						<div className="flex align-center">
@@ -22,7 +22,7 @@ function RenderPosts(props){
 						<h1 className="text-md sm:text-2xl dark:text-gray-200 font-medium ">{post.title}</h1>
 						<p className="text-base mt-2 text-dark-400 dark:text-dark-10">{post.summary}</p>
 						<div className="flex sm:align-center align-start mt-2">
-							<h5 className="font-medium text-gray-400 dark:text-gray-400 text-sm">{new Date(post.created_at).toLocaleDateString()}</h5>
+							<h5 className="font-medium text-gray-400 dark:text-gray-400 text-sm">{new Date(post.createdAt).toLocaleDateString()}</h5>
 							{/*<div className="ml-3 flex flex-wrap">{ post.tags && post.tags.map(tag=>*/}
 							{/*	<span className="bg-gray-10 mx-1 my-1 px-2 py-0 rounded-full dark_subtitle dark:bg-dark-600">*/}
 							{/*		<PreloadLink to={`/search?tag=${tag}`}>{tag}</PreloadLink>*/}

@@ -7,13 +7,12 @@
   "scripts": {
     "start": "node dist/app.js",
     "build": "tsc",
-    "dev": "set NODE_ENV=development&ts-node-dev --respawn --transpile-only src/app.ts"
+    "dev": "set NODE_ENV=development&ts-node-dev --respawn --transpile-only src/app.ts",
+    "run": "set NODE_ENV=development&ts-node-dev --respawn --transpile-only functions/api.ts"
   },
-  "engines": {
-  
-  },
+  "engines": {},
   "dependencies": {
-    "archiver": "^5.3.0",
+    "@sendgrid/mail": "^7.7.0",
     "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "chalk": "^5.0.1",
@@ -27,15 +26,18 @@
     "jsonwebtoken": "^8.5.1",
     "marked": "^4.0.12",
     "mongodb": "^4.4.1",
+    "mongoose": "^6.4.0",
     "nodemailer": "^6.7.2",
     "passport": "^0.5.2",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "redis": "^4.0.4",
+    "serverless-http": "^3.0.1",
     "shortid": "^2.2.16",
     "slugify": "^1.6.5"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/node": "^16.11.7",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.4.4"

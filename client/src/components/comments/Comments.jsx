@@ -7,6 +7,7 @@ import AddComment from "./AddComment";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faClock, faHeart, faPen, faReply, faTrash, faUserCircle} from "@fortawesome/free-solid-svg-icons";
 import PreLoad from "../UI/Preload/Preload";
+import {faHeart as faHeartLI} from "@fortawesome/pro-regular-svg-icons";
 
 
 const Comments = (props) => {
@@ -18,6 +19,7 @@ const Comments = (props) => {
     onSetShowReplyCommentForm,
     showReplyCommentForm,
     onSubmitAddComment,
+    toggleCommentReaction,
     authId,
   } = props
   
@@ -37,13 +39,15 @@ const Comments = (props) => {
   const renderCommentMemoized = renderComment(comment)
   
   
+  
   // // prevent re-rendering... whitelist these dep...
   // const renderCommentMemoized = useMemo(()=>{
   //   return renderComment(comment)
   // }, [comment, comment.reply, showMoreCommentOptionId, showReplyCommentForm])
   //
   
-  function renderComment({_id, text, post_id, user_id, user, created_at, reply=false, child_comment_count, username, avatar}) {
+  
+  function renderComment({_id, text, post_id, user_id, user, createdAt, reply=false, child_comment_count, likes, username, avatar}) {
     function formatDateTime(created) {
       let now = new Date()
       let sec = 1000;
@@ -72,6 +76,8 @@ const Comments = (props) => {
       onDeleteComment && onDeleteComment(user_id, _id)
     }
     
+    let youLiked = likes.indexOf(authId) !== -1;
+    
     return (
       <div className="my-4 mt-6">
         <div className="flex">
@@ -89,15 +95,30 @@ const Comments = (props) => {
               <p className="text-sm dark:text-gray-300 whitespace-pre-wrap">{text}</p>
             </div>
             <div className="comment-action flex mt-1 text-xs text-gray-dark-9  items-center">
-              <li className="">
-                <FontAwesomeIcon icon={faHeart} className="text-sm hover:text-primary" />
+              <li className="flex items-center">
+           
+                <FontAwesomeIcon
+                  onClick={()=>toggleCommentReaction(_id)}
+                  className={['text-xs cursor-pointer hover:text-pink-700 ',
+                    youLiked ? 'text-pink-400 ' : 'text-gray-800'].join(" ")}
+                  // icon={faHeart}
+                  icon={youLiked ? faHeart :  faHeartLI}
+                />
+                <h4 className="text-xs font-medium ml-1">{likes && likes.length}</h4>
               </li>
               <li className="mx-3">
-                <FontAwesomeIcon icon={faReply} onClick={()=>onSetShowReplyCommentForm(_id)} className="text-sm mr-1"/>
+                <FontAwesomeIcon
+                  icon={faReply}
+                  onClick={()=>onSetShowReplyCommentForm(_id)}
+                  className="text-xs mr-1"
+                />
               </li>
               <li>
-                <FontAwesomeIcon icon={faClock} onClick={()=>onSetShowReplyCommentForm(_id)} className="text-sm mr-1"/>
-                {formatDateTime(new Date(created_at))}
+                <FontAwesomeIcon
+                  icon={faClock}
+                  onClick={()=>onSetShowReplyCommentForm(_id)}
+                  className="text-xs mr-1"/>
+                {formatDateTime(new Date(createdAt))}
               </li>
               <li className="ml-3  relative">
                 <span className="cursor-pointer hover:text-primary"

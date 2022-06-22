@@ -102,3 +102,5 @@ export const adminRoutes = [
 // };
 //
 // export default AdminRoutes;
+
+export default  {}

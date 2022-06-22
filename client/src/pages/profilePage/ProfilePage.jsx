@@ -1,5 +1,5 @@
-import React, {Suspense, useRef} from 'react';
-import {Link, useHistory, useParams} from "react-router-dom";
+import React, {Suspense} from 'react';
+import { useParams} from "react-router-dom";
 import api from "../../apis";
 
 import "./profile_page.scss"
@@ -11,16 +11,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {faFacebook, faGithub, faLinkedin, faTwitter} from "@fortawesome/free-brands-svg-icons";
 import {faGlobe, faPen, faTrash, faUserCircle} from "@fortawesome/free-solid-svg-icons";
 import blobToBase64 from "../../utils/blobToBase64";
-import PreloadLink from "../../components/preloadLink/PreloadLink";
 import ProfileSkeleton from "./ProfileSkeleton";
 import parseTextToHtml from "../../utils/parseTextToHtml";
 import ReactLazyPreload from "../../utils/ReactLazyPreload";
 import RenderAuthPostsLite from "../../components/RenderAuthPosts/RenderAuthPostsLite";
 const ProfileEditor = ReactLazyPreload(()=>import("./ProfileEditor"));
 const ProfilePhotoChooseModal = ReactLazyPreload(()=>import("./ProfilePhotoChooserModal"));
+import PreloadLink from "src/components/UI/Preload/Preload"
 
-
-const ProfilePage = () => {
+const ProfilePage = (props) => {
 	const params = useParams()
 	
 	const dispatch = useDispatch()
@@ -45,30 +44,32 @@ const ProfilePage = () => {
 		setAuthor({})
 		setUserPosts(null)
 		
-		let idx = postState.cacheUserProfile.findIndex(p=>p._id === params.id)
-		if(idx !== -1){
-			setAuthor(postState.cacheUserProfile[idx])
-			setUserPosts(postState.cacheUserProfile[idx].posts ? postState.cacheUserProfile[idx].posts  : [])
-		} else {
-			api.get(`/api/users/${params.id}`).then(response=> {
-				if (response.status === 200) {
-					dispatch({type: "FETCH_USER_PROFILE", payload: response.data.user})
-					setAuthor(response.data.user)
-					
-					
-					// fetch user posts
-					api.get(`/api/posts?author_id=${response.data.user._id}`)
-						.then(response=>{
-							if(response.status === 200){
-								dispatch({
-									type: "FETCH_USER_POSTS",
-									payload: {userId: params.id, posts: response.data.posts}
-								})
-								setUserPosts(response.data.posts)
-							}
-						})
-				}
-			})
+		if(params.id) {
+			let idx = postState.cacheUserProfile.findIndex(p => p._id === params.id)
+			if (idx !== -1) {
+				setAuthor(postState.cacheUserProfile[idx])
+				setUserPosts(postState.cacheUserProfile[idx].posts ? postState.cacheUserProfile[idx].posts : [])
+			} else {
+				api.get(`/api/users/${params.id}`).then(response => {
+					if (response.status === 200) {
+						dispatch({type: "FETCH_USER_PROFILE", payload: response.data.user})
+						setAuthor(response.data.user)
+						
+						
+						// fetch user posts
+						api.get(`/api/posts?author_id=${response.data.user._id}`)
+							.then(response => {
+								if (response.status === 200) {
+									dispatch({
+										type: "FETCH_USER_POSTS",
+										payload: {userId: params.id, posts: response.data.posts}
+									})
+									setUserPosts(response.data.posts)
+								}
+							})
+					}
+				})
+			}
 		}
 	}, [params.id])
 	
@@ -208,22 +209,22 @@ const ProfilePage = () => {
 								</p>
 								<div className="social flex justify-center">
 									<li className="mr-2">
-										<a href="https://www.facebook.com/raselmraju" target="_blank">
+										<a href="https://www.facebook.com/rasel.mahmud.dev" target="_blank">
 											<FontAwesomeIcon icon={faFacebook}/>
 										</a>
 									</li>
 									<li className="mr-2">
-										<a href="https://github.com/rasel-code-dev" target="_blank">
+										<a href="https://github.com/rasel-mahmud-dev" target="_blank">
 											<FontAwesomeIcon icon={faGithub}/>
 										</a>
 									</li>
 									<li className="mr-4">
-										<a href="https://www.linkedin.com/in/rasel-code-dev" target="_blank">
+										<a href="https://www.linkedin.com/in/rasel-mahmud-9869a2234" target="_blank">
 											<FontAwesomeIcon icon={faLinkedin}/>
 										</a>
 									</li>
 									<li className="mr-2">
-										<a href="https://rasel-code-dev.vercel.app" target="_blank">
+										<a href="https://rasel-portfolio.vercel.app" target="_blank">
 											<FontAwesomeIcon icon={faGlobe}/>
 										</a>
 									</li>

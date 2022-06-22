@@ -23,7 +23,7 @@ const HeroSection = (props) => {
   React.useEffect(()=>{
 
     if (topPosts.posts.length === 0) {
-      // fetchTopPosts(dispatch).then(r => {})
+      fetchTopPosts(dispatch).then(r => {})
     }
     if (posts.length === 0) {
       fetchPosts(dispatch, "", (data) => {})

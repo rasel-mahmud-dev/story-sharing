@@ -6,9 +6,11 @@ import path from "path";
 import response from "../response";
 import {readdir, stat, rm} from "fs/promises";
 import saveLog from "../logger/saveLog";
-import {redisConnect} from "../database";
-import Post, {PostWithAuthorType} from "../models/Post";
 import {ObjectId} from "mongodb";
+import mongoose from "mongoose";
+
+const User = mongoose.model("User")
+const Post = mongoose.model("Post")
 
 
 

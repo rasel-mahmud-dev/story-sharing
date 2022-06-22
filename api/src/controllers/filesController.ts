@@ -6,31 +6,31 @@ import {cp, readdir, stat, writeFile} from "fs/promises";
 import replaceOriginalFilename from "../utilities/replaceOriginalFilename";
 import errorConsole from "../logger/errorConsole";
 import { Request, Response } from  "express"
-const archiver = require('archiver');
+// const archiver = require('archiver');
 
 
-export const makeDataBackup  = async (req, res)=>{
-  
-  const archive = archiver('zip', {
-    zlib: {level: 9} // Sets the compression level.
-  });
-  
-  archive.on('error', function (err) {
-    errorConsole(err)
-    res.end()
-  });
-
-  // pipe to response data to the file
-  archive.pipe(res);
-  const markdownDir = process.cwd() + "/markdown"
-  
-  archive.directory(markdownDir, "markdown");
-  
-  await archive.finalize()
-  // after finalize archive
-  // end streaming...
-   res.end()
-}
+// export const makeDataBackup  = async (req, res)=>{
+//
+//   const archive = archiver('zip', {
+//     zlib: {level: 9} // Sets the compression level.
+//   });
+//
+//   archive.on('error', function (err) {
+//     errorConsole(err)
+//     res.end()
+//   });
+//
+//   // pipe to response data to the file
+//   archive.pipe(res);
+//   const markdownDir = process.cwd() + "/markdown"
+//
+//   archive.directory(markdownDir, "markdown");
+//
+//   await archive.finalize()
+//   // after finalize archive
+//   // end streaming...
+//    res.end()
+// }
 
 export const getFileContent = async (req, res)=>{
   let filePath = req.query.path

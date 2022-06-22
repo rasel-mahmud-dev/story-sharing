@@ -6,6 +6,7 @@ const postRoutes = (app)=>{
   
   app.get("/api/test", controller.postController.getP);
   app.get("/api/posts", controller.postController.getPosts);
+  
 
   // filter posts
   app.post("/api/filter-posts", controller.postController.filterPosts);
@@ -24,13 +25,16 @@ const postRoutes = (app)=>{
   // body => { path: string }
   app.post("/api/raw-md-content", controller.postController.getRawMarkdownContent)
 
+  app.post("/api/post/get-likes", controller.likeController.getLikes)
   app.post("/api/post/add-like", getAuthID, controller.likeController.addLike)
   app.post("/api/post/remove-like", getAuthID, controller.likeController.removeLike)
 
 
   app.post("/api/post/add-comment", getAuthID, controller.commentController.createComment)
+  app.post("/api/post/add-comment-reaction", getAuthID, controller.commentController.addCommentReaction)
+  app.post("/api/post/remove-comment-reaction", getAuthID, controller.commentController.removeCommentReaction)
   
-  app.post("/api/post/fetch-comments", getAuthID, controller.commentController.findComments)
+  app.post("/api/post/fetch-comments",  controller.commentController.findComments)
   
   app.post("/api/post/delete-comment", getAuthID, controller.commentController.deleteComment)
 

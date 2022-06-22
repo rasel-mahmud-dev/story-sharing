@@ -6,7 +6,7 @@ async function foo () {
   const args = process.argv.slice(2)
   const instance = autocannon({
     // url: 'http://localhost:8080/api/posts',
-    url: 'http://localhost:1000/api/posts',
+    url: 'http://localhost:5500/api/posts',
     connections: args[0] || 1000, //default
     // maxConnections: args[1] || 1000,  // each user max connection
     // pipelining: 1, // default

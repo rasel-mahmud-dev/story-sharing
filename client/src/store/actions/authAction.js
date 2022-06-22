@@ -1,8 +1,8 @@
-import api from "../../apis";
+import api, {getApi} from "../../apis";
 
 
 export const fetchCurrentAuth = (dispatch) => {
-  api.get("/api/auth/current-auth").then(response => {
+  getApi().get("/api/auth/current-auth").then(response => {
     if (response.status === 201) {
       dispatch({
         type: "LOGIN",
@@ -24,8 +24,8 @@ export const fetchCurrentAuth = (dispatch) => {
 }
 
 export const loginUser = (userData, dispatch, cb)=> {
-
-  api.post("/api/auth/login", {email: userData.email, password: userData.password})
+  
+  getApi().post("/api/auth/login", {email: userData.email, password: userData.password})
       .then(response => {
         if (response.status === 201) {
           dispatch({

@@ -12,7 +12,7 @@ export default (app)=>{
 
 
 
-  app.get("/api/backup", getAuthID, controllers.filesController.makeDataBackup)
+  // app.get("/api/backup", getAuthID, controllers.filesController.makeDataBackup)
 
 
   app.post("/api/file-delete", getAuthID, controllers.filesController.deletedFile)

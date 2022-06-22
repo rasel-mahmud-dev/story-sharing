@@ -1,18 +1,17 @@
 const jwt = require('jsonwebtoken')
 
-export const createToken = (id, email, role="user", expiresIn?:string)=> {
+export const createToken = (userId: string, role= "user", expiresIn?:string)=> {
   return jwt.sign({
-      id: id,
-      email: email,
+      userId,
       role,
     },
-    process.env.SECRET, {expiresIn: expiresIn ? expiresIn : '5h'}
+    process.env.SECRET, {expiresIn: "7d"}
   )
 }
 
 
 export const parseToken = (token)=> {
-   return new Promise<{id: number, email: string, role: string}>(async (resolve, reject)=>{
+   return new Promise<{userId: string, role: string}>(async (resolve, reject)=>{
      try {
        if(token) {
          let d = await jwt.verify(token, process.env.SECRET)
@@ -25,9 +24,4 @@ export const parseToken = (token)=> {
      }
    })
 }
-
-export const getToken = (req)=> {
-  return req.headers["authorization"]
-}
-
 

@@ -2,6 +2,11 @@ import { lazy, Suspense } from "react"
 import { useRoutes } from "react-router-dom";
 import ProgressBar from "src/components/UI/ProgressBar/ProgressBar";
 import AddPostSkeleton from "./pages/admin/AddPostSkeleton";
+import AllSignIn from "./pages/auth/AllSignIn";
+import LoginWithEmail from "./pages/auth/LoginWithEmail";
+import SignUp from "./pages/auth/SignUp";
+import AndroidPosts from "./pages/admin/androidPosts/AndroidPosts";
+import ForgetPassword from "./pages/auth/ForgetPassword";
 
 // this function function for lazy route load...........
 const ReactLazyPreload  = (importStatement)=>{
@@ -36,6 +41,19 @@ function MyRoutes(props){
     // isAuth = auth.isAuthenticated
   
   
+  
+  
+  
+  {/*<Suspense fallback={<ProgressBar/>}>*/}
+  {/*	<Route exact={true} path="/auth/join" component={AllSignInHome} />*/}
+  {/*	<Route exact={true} path="/auth/join/new" component={SignUp} />*/}
+  {/*	<LoginStateContext.Provider value={{tryingEmail, setTryingEmail: (email)=> setTryingEmail(email) }}>*/}
+  {/*		<Route exact={true} path="/auth/join/email" component={LoginWithEmail} />*/}
+  {/*		<Route path="/auth/join/reset-password" component={ForgetPassword}  />*/}
+  {/*	</LoginStateContext.Provider>*/}
+  {/*	<Route path="/auth/join/new-password/:token" component={SetNewPassword} />*/}
+  {/*</Suspense>*/}
+  
   // if(isAuth){
   myRoutes = [
   
@@ -55,7 +73,23 @@ function MyRoutes(props){
       element: <Dashboard/>,
       protected: true,
       redirectUrl: "/auth/join",
-      authFetchInLoading: AddPostSkeleton
+      authFetchInLoading: AddPostSkeleton,
+      children: [
+        {
+          path: "",
+          index: true,
+          element: <AllSignIn/>
+        },
+        {
+          path: "add-post/:postId",
+          index: true,
+          element: <AddPost/>
+        },{
+          path: "android-posts",
+          index: true,
+          element: <AndroidPosts/>
+        },
+      ]
     },  // nested routes
     {
       path: "/auth/add-post/null",
@@ -63,14 +97,44 @@ function MyRoutes(props){
       protected: true,
       redirectUrl: "/auth/join",
       authFetchInLoading: AddPostSkeleton
-    },  // nested routes
+     
+    },
+    
+    // nested routes
+    
+    
     {
       path: "/auth/join",
-      index: false,
-      unProtected: true,
-      redirectUrl: "/",
-      element: <AllSignInLite/>
+      // index: false,
+      // unProtected: true,
+      // redirectUrl: "/",
+      element: <AllSignInLite/>,
+      children: [
+        {
+          path: "",
+          index: true,
+          element: <AllSignIn/>
+        },
+        {
+          path: "email",
+          index: true,
+          element: <LoginWithEmail/>
+        },
+        {
+          path: "reset-password",
+          index: true,
+          element: <ForgetPassword/>
+        }
+      ]
     }, // nested routes
+    
+    {
+      path: "/auth/join/new",
+      // index: false,
+      // unProtected: true,
+      // redirectUrl: "/",
+      element: <SignUp />,
+    }
     
     // { path: "/products", index: true ,  element: <ProductPage/> },
     // { path: "/products/:slug", index: true, element: <MoreProducts/> },
@@ -119,6 +183,18 @@ function MyRoutes(props){
   //     // { path: "/auth/signup", component: signupPage }
   //   ]
   // }
+  
+  
+  // {
+  //   path: "/admin/dashboard",  element: <AdminDashboard/>,
+  //   children: [
+  //   {path: "products/product-list", index: true, element: <ProductList/>},
+  //   {path: "products/category", index: true, element: <Category/>},
+  //   {path: "products/add-product/:productId", index: true, element: <AddProduct/>},
+  //   {path: "products/server/logs", index: true, element: <Logs/>}
+  // ]
+  // },
+  
   
   return (
     <Suspense fallback={<ProgressBar />}>

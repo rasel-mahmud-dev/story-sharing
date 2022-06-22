@@ -18,28 +18,28 @@ const Footer = () => {
 				<div className="footer text-center grid grid-cols-1 gap-y-4 sm:grid-cols-2 md:grid-cols-4 md:text-left ">
 					<div>
 						<h3 className="text-lg font-medium text-gray-200 mb-2">DEV STORY</h3>
-						<a  className='text-gray-300 text-sm mb-2' href="https://rasel-code-dev.vercel.app" target="_blank">
+						<a  className='text-gray-300 text-sm mb-2' href="https://rasel-portfolio.vercel.app" target="_blank">
 							Hire Me
 						</a>
 						<h4><Link className="text-gray-300" to="/about" >About US</Link></h4>
 						<div className="social flex py-2 justify-center md:justify-start">
 							<li className="mr-2">
-								<a href="https://www.facebook.com/raselmraju" target="_blank">
+								<a href="https://web.facebook.com/rasel.mahmud.dev" target="_blank">
 									<FontAwesomeIcon icon={faFacebook} />
 								</a>
 							</li>
 							<li className="mr-2">
-								<a href="https://github.com/rasel-code-dev" target="_blank">
+								<a href="https://github.com/rasel-mahmud-dev" target="_blank">
 									<FontAwesomeIcon icon={faGithub} />
 								</a>
 							</li>
 							<li className="mr-4">
-								<a href="https://www.linkedin.com/in/rasel-code-dev" target="_blank">
+								<a href="https://www.linkedin.com/in/rasel-mahmud-9869a2234" target="_blank">
 									<FontAwesomeIcon icon={faLinkedin} />
 								</a>
 							</li>
 							<li className="mr-2">
-								<a href="https://rasel-code-dev.vercel.app" target="_blank">
+								<a href="https://rasel-portfolio.vercel.app" target="_blank">
 									<FontAwesomeIcon icon={faGlobe} />
 								</a>
 							</li>

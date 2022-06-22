@@ -3,7 +3,7 @@ import React, {useEffect, Suspense} from "react";
 import queryString from "query-string"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import "./styles.scss";
-import {Link, useHistory, useLocation, useParams} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {
   deletePost,
   filterPostUsingTag,
@@ -29,32 +29,32 @@ const PostsFilterPage = (props) => {
   })
 
   const dispatch = useDispatch()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(()=>{
     setLoading(true)
     
-    let val = queryString.parse(history.location.search)
-    if(val.tag){
-      filterPostUsingTag(dispatch, val.tag, ()=>setLoading(false))
-      dispatch({
-        type: "SET_POST_SEARCH_VALUE",
-        payload: val.tag
-      })
-    } else if(val.text) {
-      filterPostUsingText(dispatch, val.text,  ()=>setLoading(false))
-      dispatch({
-        type: "SET_POST_SEARCH_VALUE",
-        payload: val.text
-      })
-    }
+    // let val = queryString.parse(history.location.search)
+    // if(val.tag){
+    //   filterPostUsingTag(dispatch, val.tag, ()=>setLoading(false))
+    //   dispatch({
+    //     type: "SET_POST_SEARCH_VALUE",
+    //     payload: val.tag
+    //   })
+    // } else if(val.text) {
+    //   filterPostUsingText(dispatch, val.text,  ()=>setLoading(false))
+    //   dispatch({
+    //     type: "SET_POST_SEARCH_VALUE",
+    //     payload: val.text
+    //   })
+    // }
 
     // if(postState.posts.length < 1) {
     //   setLoading(true)
     //   // fetchPosts(dispatch, location.pathname, () => setLoading(false))
     // }
 
-  }, [history.location.search])
+  }, [])
 
 
   // useEffect(async () => {
@@ -83,7 +83,7 @@ const PostsFilterPage = (props) => {
   function handleClearPostSearch(e) {
     dispatch({type: "SET_POST_SEARCH_VALUE", payload: ""})
     dispatch({type: "SEARCH_POSTS", payload: postState.posts})
-    history.replace("/")
+    navigate("/")
   }
 
   function deletePostHandler(id) {

@@ -1,5 +1,5 @@
 import React, {useEffect, Suspense} from "react";
-import {Link, useHistory, Switch, Route} from "react-router-dom";
+import {Link, Outlet, Route, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux"
 import { loginUser } from "src/store/actions/authAction";
 import {CSSTransition} from "react-transition-group";
@@ -20,7 +20,8 @@ import validateEmail from "../../utils/validateEmail";
 const SignUp = (props) => {
 	
 	const dispatch = useDispatch()
-	const history = useHistory()
+	// const history = useHistory()
+	const navigate = useNavigate()
 	
 	const [message, setMessage] = React.useState("")
 	const [buttonState, setButtonState] = React.useState({
@@ -172,7 +173,7 @@ const SignUp = (props) => {
 									type: "LOGIN",
 									payload: response.data
 								})
-								history.push("/")
+								navigate("/")
 							} else {}
 							setMessage(response.data.message)
 						})
@@ -200,19 +201,19 @@ const SignUp = (props) => {
 	function renderNestedRoutes(){
 		return (
 			<div className="px-3">
-				<Switch>
-					<Suspense fallback={<ProgressBar/>}>
-						<Route exact={true} path="/auth/login">{loginComponentRender()}</Route>
-						<Route
-							path="/auth/login/reset-password"
-							render={()=><ForgetPassword {...props} email={userData.email} />}
-						/>
-						<Route
-							path="/auth/login/new-password/:token"
-							render={()=><SetNewPassword {...props} email={userData.email} />}
-						/>
-					</Suspense>
-				</Switch>
+			
+					{/*<Suspense fallback={<ProgressBar/>}>*/}
+					{/*	<Route exact={true} path="/auth/login">{loginComponentRender()}</Route>*/}
+					{/*	<Route*/}
+					{/*		path="/auth/login/reset-password"*/}
+					{/*		render={()=><ForgetPassword {...props} email={userData.email} />}*/}
+					{/*	/>*/}
+					{/*	<Route*/}
+					{/*		path="/auth/login/new-password/:token"*/}
+					{/*		render={()=><SetNewPassword {...props} email={userData.email} />}*/}
+					{/*	/>*/}
+					{/*</Suspense>*/}
+		
 			</div>
 		)
 	}
@@ -496,6 +497,12 @@ const SignUp = (props) => {
 						
 						<Link to="/auth/join" className="flex max-w-max rounded-full py-2 btn mx-auto px-5 mt-10 bg-gray-10 dark:bg-dark-600 dark_subtitle">All sign in options</Link>
 					
+					</div>
+					
+					<div>
+						<Suspense fallback={<ProgressBar/>}>
+							<Outlet />
+						</Suspense>
 					</div>
 					
 					{/*{renderNestedRoutes()}*/}

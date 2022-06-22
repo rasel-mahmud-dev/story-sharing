@@ -1,11 +1,11 @@
 import React, { useState} from 'react';
-import {useHistory, useParams} from "react-router-dom";
+import { useParams} from "react-router-dom";
 import qs from "query-string"
 import {useDispatch} from "react-redux";
 const AuthService = () => {
 	
 	const params = useParams()
-	const history = useHistory()
+	// const history = useHistory()
 	const dispatch = useDispatch()
 	
 	const queryString = qs.parse(history.location.search)
@@ -17,7 +17,7 @@ const AuthService = () => {
 					type: "LOGIN",
 					payload: queryString
 				})
-				history.push("/")
+				// history.push("/")
 			}
 			
 			(async function (){

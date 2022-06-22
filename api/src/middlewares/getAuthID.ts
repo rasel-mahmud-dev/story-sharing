@@ -1,6 +1,8 @@
-import { parseToken} from "../jwt/index";
+import { parseToken} from "../jwt";
+import {NextFunction,  Response} from "express";
+import {RequestWithAuth} from "../types";
 
- function getAuthID(req, res, next){
+ function getAuthID(req: RequestWithAuth, res: Response, next: NextFunction){
   let token = req.headers["token"]
   
   if(!token){
@@ -9,8 +11,8 @@ import { parseToken} from "../jwt/index";
   }
   
   parseToken(token).then(u=>{
-    req.user_id = u.id
-    req.user_email = u.email
+    req.user_id = u.userId
+    req.user_role = u.role
     next()
   }).catch(err=>{
     console.log(err.message)

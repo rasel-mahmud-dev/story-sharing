@@ -18,7 +18,6 @@ function App(props) {
 	let dispatch = useDispatch()
 	
 	let { authState, postState, appState} = useSelector((state) => {
-		
 		return {
 			authState: state.authState,
 			appState: state.appState,
@@ -39,17 +38,18 @@ function App(props) {
 		
 		fetchCurrentAuth(dispatch)
 		
-		api.post("/api/add-cookie").then(r=>{
-			dispatch({
-				type: "SET_VISITORS",
-				payload: {
-					day_visitor: r.data.day_visitor,
-					total_visitors: r.data.total_visitor
-				}
-			})
-		}).catch(ex=>{
-			console.log(ex.message)
-		})
+		// api.post("/api/add-cookie").then(r=>{
+		// 	dispatch({
+		// 		type: "SET_VISITORS",
+		// 		payload: {
+		// 			day_visitor: r.data.day_visitor,
+		// 			total_visitors: r.data.total_visitor
+		// 		}
+		// 	})
+		// }).catch(ex=>{
+		// 	console.log(ex.message)
+		// })
+		
 	}, [])
 	
 	function handleCloseAuthMenu(){

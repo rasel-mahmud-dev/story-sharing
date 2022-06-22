@@ -8,7 +8,7 @@ function TopHitsPosts(props){
 	
 	return React.useMemo(() => {
 		return topPosts.posts && topPosts.posts.map((post, index) => (
-			<PreLoad to={`/posts/${post.slug}/${post.post_id}`} className="post_link_a">
+			<PreLoad to={`/posts/${post.slug}/${post._id}`} className="post_link_a">
 				<div className="flex mx-4  my-4">
           <span
 						className="text-dark-400 text-2xl font-bold whitespace-nowrap mr-4">{index < 9 ? 0 : ''}{index + 1}</span>
@@ -25,7 +25,7 @@ function TopHitsPosts(props){
 							<h1 className="text-md sm:text-2xl dark:text-gray-200 font-medium">{post.title}</h1>
 							<p className="mt-4 dark:text-dark-10 text-base">{post.summary}</p>
 						</div>
-						<p className="mt-2 text-sm text-gray-400">{new Date(post.created_at).toLocaleDateString()} - {post.time}</p>
+						<p className="mt-2 text-sm text-gray-400">{new Date(post.createdAt).toLocaleDateString()} - {post.time}</p>
 					</div>
 				
 				</div>

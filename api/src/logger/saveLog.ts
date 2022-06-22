@@ -3,6 +3,10 @@ import fs from "fs";
 import path from "path";
 
 function saveLog(message: string, url?: string, method?: string )  {
+  
+  if(process.env.NODE_ENV !== "development") return
+  
+  
   let date = new Date()
   let isPM  = "AM"
   let t= date.getHours()

@@ -15,7 +15,7 @@ export default (app)=>{
   app.get("/api/auth/current-auth", controllers.authController.loginViaToken)
   app.post("/api/auth/register", controllers.authController.createNewUser)
 
-  app.post("/api/add-cookie", controllers.authController.cookieAdd)
+  // app.post("/api/add-cookie", controllers.authController.cookieAdd)
 
 
   // app.get('/auth/callback/google', passport.authenticate('google'), function(req, res) {

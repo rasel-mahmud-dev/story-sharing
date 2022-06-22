@@ -1,19 +1,16 @@
 import axios from "axios";
 
 
-// @ts-ignore
-export const baseBackend = import.meta.env.MODE === "development"
-  ? "http://localhost:1000"
-  : "https://mwsjzaxqrt.us10.qoddiapp.com"
-// export const baseBackend = "https://mwsjzaxqrt.us10.qoddiapp.com"
 
 // @ts-ignore
 export const backend = import.meta.env.MODE === "development"
-  // ? "https://mwsjzaxqrt.us10.qoddiapp.com"
-  ? "http://localhost:3300"
-  : baseBackend
+  ? "http://localhost:8080"
+  : "https://dev-story-api.netlify.app/.netlify/functions/api"
 
 
+export const baseBackend = import.meta.env.MODE === "development"
+  ? "http://localhost:8080"
+  : "https://dev-story-api.netlify.app/.netlify/functions/api"
 
 
 

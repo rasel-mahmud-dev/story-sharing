@@ -71,6 +71,7 @@ export function fetchTopPosts(dispatch, pathname, cb){
   return new Promise(async (resolve, reject)=>{
     try {
       let response = await getApi().get("/api/posts/hits")
+      console.log(response)
       if (response.status === 200) {
         // setTopPosts(res.data.posts)
         dispatch({
@@ -86,15 +87,14 @@ export function fetchTopPosts(dispatch, pathname, cb){
 }
 
 export  function fetchPosts(dispatch, pathname, cb){
-  api.get("http://localhost:3300/api/posts").then(response=>{
-    console.log(response)
+  api.get("/api/posts").then(response=>{
     
     if(response.status === 200){
       dispatch({
         type: "FETCH_POSTS",
-        payload: response.data
+        payload: response.data.posts
       })
-      cb(response.data)
+      cb(response.data.posts)
     } else {
       dispatch({
         type: "FETCH_POSTS",

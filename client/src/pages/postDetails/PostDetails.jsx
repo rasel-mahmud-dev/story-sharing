@@ -33,13 +33,13 @@ const PostDetails = (props) => {
     comments: [],
     post_id: "",
     user_id: "",
-    // likes: [],
-    like: {
-      likes: []
-    },
+    createdAt: null,
     tags: []
   })
-
+  let [comments, setComments] = React.useState([])
+  
+  const [likes, setLikes] = React.useState([])
+  
   const [loadingState, setLoadingState] = React.useState({
     id: "add_comment",
     isShown: false,
@@ -67,115 +67,74 @@ const PostDetails = (props) => {
   const [isOver, setOver] = React.useState(false)
 
   React.useEffect(async () => {
-    let response = await apis.get(`/api/posts/${params.id}`)
     
-    if(response.status === 200) {
+    if(params.id) {
+  
+      let response = await apis.get(`/api/posts/${params.id}`)
+  
       let updatedPostDetails = {...postDetails}
-      let post = response.data.post
-      updatedPostDetails = {
-        ...updatedPostDetails,
-        ...post
-      }
-      setPostDetails(updatedPostDetails)
+      if (response.status === 200) {
+        let post = response.data.post
+        updatedPostDetails = {
+          ...updatedPostDetails,
+          ...post
+        }
+    
+        setPostDetails(updatedPostDetails)
+        let req = new XMLHttpRequest()
+        req.open("POST", `${baseBackend}/api/markdown/content`)
+        req.responseType = 'text';
+        req.onload = function (e) {
       
-      // fetch markdown html
-      // let mdContentResponse = await apis.post(`/api/markdown/content`,
-      //   {filePath: post.path, post_id: post._id},
-      //   { headers: {
-      //       responseType: 'stream'
-      //     } }
-      //   )
-      // console.log(mdContentResponse.data.length)
-      // if (mdContentResponse.status === 200) {
-      //   setPostDetails({
-      //     ...post,
-      //     mdContent: mdContentResponse.data
-      //   })
-      // }
-
-      let req = new XMLHttpRequest()
-      req.open("POST", `${baseBackend}/api/markdown/content`)
-      req.responseType = 'text';
-      req.onload = function (e){
-      
-      }
-
-      req.onprogress = ev => {
-        // console.log(ev)
-      }
-
-      /** store chunked markdown html and render it  */
-      req.onreadystatechange = function() {
-        if(markDownContent.html){
-          // re-render every second when streaming...
-          setTimeout(()=>{
+        }
+    
+        req.onprogress = ev => {
+          // console.log(ev)
+        }
+    
+        /** store chunked markdown html and render it  */
+        req.onreadystatechange = function () {
+          if (markDownContent.html) {
+            // re-render every second when streaming...
+            setTimeout(() => {
+              setMarkDownContent({
+                _id: post._id,
+                html: markDownContent.html + req.response
+              })
+            }, 1000)
+          } else {
             setMarkDownContent({
               _id: post._id,
               html: markDownContent.html + req.response
             })
-          }, 1000)
-        } else {
-          setMarkDownContent({
-            _id: post._id,
-            html: markDownContent.html + req.response
-          })
+          }
         }
+    
+        req.setRequestHeader('Content-type', 'application/json')
+        req.send(JSON.stringify({
+          filePath: post.path,
+          post_id: post._id
+        }));
+    
+    
+        // get all comments
+        getApi().post("/api/post/fetch-comments", {post_id: updatedPostDetails._id}).then(res => {
+          if (res.status === 200) {
+            setComments(res.data.comments)
+          }
+        })
+        getApi().post("/api/post/get-likes", {post_id: updatedPostDetails._id}).then(res => {
+          if (res.status === 200) {
+            setLikes(res.data)
+          }
+        })
       }
-
-      req.setRequestHeader('Content-type', 'application/json')
-      req.send(JSON.stringify({
-        filePath: post.path,
-        post_id: post._id
-      }));
+  
     }
   }, [params.id])
-
   
-  React.useEffect(()=>{
-    getApi().post("/api/post/fetch-comments", {user_id: authState._id, post_id: postDetails._id}).then(res=>{
-      if(res.status === 200){
-        let updatedPostDetails = {...postDetails}
-        updatedPostDetails.comments = res.data.comments
-        setPostDetails(updatedPostDetails)
-      }
-    })
-  }, [postDetails._id])
-  
-
-  // React.useEffect(async ()=>{
-  //   if(postDetails.id) {
-  //     let mdContentResponse = await apis.get(`/api/post-content/${postDetails.id}`)
-  //     if (mdContentResponse.status === 200) {
-  //       setPostDetails({
-  //         ...postDetails,
-  //         mdContent: mdContentResponse.data
-  //       })
-  //     }
-  //   }
-  // }, [postDetails.id])
-  
-  // React.useEffect(() => {
-  //   marked.setOptions({
-  //     renderer: new marked.Renderer(),
-  //     highlight: function (code, lang) {
-  //       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-  //       return hljs.highlight(code, {language}).value;
-  //     },
-  //     pedantic: false,
-  //     gfm: true,
-  //     tables: true,
-  //     breaks: false,
-  //     sanitize: false,
-  //     smartLists: true,
-  //     smartypants: false,
-  //     xhtml: false
-  //   });
-  // }, [postDetails])
-
-
-  async function handleAddLike(post_id, like) {
+  async function handleToggleLike(post_id) {
     if(!authState || !authState._id){
-
       setLoadingState({
         id: "add_comment",
         status: 200,
@@ -184,73 +143,40 @@ const PostDetails = (props) => {
       })
       return
     }
-  
+    
     setHttpProgress(true)
     
-    if(like && like.likes && like.likes.indexOf(authState._id) === -1){
-      // add new Like
-     
+    
+    let updatedLikes = [...likes]
+    let likeIndex = updatedLikes.findIndex((like)=>like.postId === post_id && like.userId === authState._id )
+    
+    if(likeIndex === -1){
+      ///add new like
+  
+      getApi().post("/api/post/add-like", {post_id: post_id, user_id: authState._id}).then(r => {
+          if (r.status === 201) {
+            setLikes([...updatedLikes, r.data])
+            setHttpProgress(false)
+          }
+      })
       
-      let response = await getApi().post("/api/post/add-like", {  post_id: post_id, user_id: authState._id})
-      if(response.status === 201){
-        let updatedPostDetails = {...postDetails}
-        updatedPostDetails.like.likes = [...updatedPostDetails.like.likes, authState._id]
-        setPostDetails(updatedPostDetails)
-        setHttpProgress(false)
-      }
     } else {
-      // remove Like
-
-      
-      let response = await getApi().post("/api/post/remove-like", { post_id: post_id, like_id: like._id, user_id: authState._id})
-      if(response.status === 201){
-        let updatedPostDetails = {...postDetails}
-        let index = updatedPostDetails.like.likes.findIndex(l=>l._id === authState._id)
-        updatedPostDetails.like.likes.splice(index, 1)
-        setPostDetails(updatedPostDetails)
-        setHttpProgress(false)
+      ///remove like
+      let like = updatedLikes[likeIndex]
+      if(like) {
+        getApi().post("/api/post/remove-like", {like_id: like._id, user_id: authState._id}).then(r => {
+          if (r.status === 201) {
+            updatedLikes.splice(likeIndex, 1)
+            setLikes(updatedLikes)
+            setHttpProgress(false)
+          }
+        })
       }
     }
-    
-    
-    // console.log(response)
-    
-    
-    // getApi().post("/api/toggle-like", {post_id: post_id, user_id: authState._id}).then(r => {
-    //   if (r.status === 201) {
-    //     let post = r.data.post
-    //     setLoadingState({
-    //       id: "add_comment",
-    //       status: 200,
-    //       message: "You like this post",
-    //       isShown: true
-    //     })
-    //     setPostDetails({
-    //       ...postDetails,
-    //       likes: post.likes
-    //     })
-    //   } else {
-    //     setLoadingState({
-    //       id: "add_comment",
-    //       status: 400,
-    //       message: "Like post fail..",
-    //       isShown: true
-    //     })
-    //   }
-    // }).catch(er=>{
-    //   setLoadingState({
-    //     id: "add_comment",
-    //     status: 400,
-    //     message: "Like post fail..",
-    //     isShown: true
-    //   })
-    // })
-
   }
-
-
-  function postReaction({_id, like}) {
-    let youLiked = like && like.likes && like.likes.indexOf(authState.id) !== -1
+  
+  function postReaction({_id}) {
+    let youLiked = likes && likes.findIndex((like)=>like.userId === authState._id) !== -1
 
     return (
         <div>
@@ -261,22 +187,21 @@ const PostDetails = (props) => {
                   <Spin />
                 </div>
               ) : (
-                <>
+                <div className="flex items-center" >
                   <FontAwesomeIcon icon={youLiked ? faHeart : isOver ? faHeart : faHeartLI}
+                                   onClick={(e) => handleToggleLike(_id)}
                      onMouseEnter={()=>setOver(true)}
                      onMouseLeave={()=>setOver(false)}
-                     onClick={(e) => handleAddLike(_id, like)}
                      className={['cursor-pointer hover:text-pink-700 dark_subtitle ', youLiked ? 'text-pink-400 ' : 'text-gray-800'].join(" ")}
                   />
-                  <h4 className="font-normal ml-1">{like && like.likes ? like.likes.length : '0'}</h4>
-                </>
+                  <h4 className="font-medium ml-1">{likes ? likes.length : '0'}</h4>
+                </div>
                 ) }
             </li>
           </ul>
         </div>
     )
   }
-
 
   function renderMarkdownContent(){
     return (
@@ -287,9 +212,8 @@ const PostDetails = (props) => {
         </div>
     )
   }
-
-
-  function postCommentHandler({text, parent_id}){
+  
+  function addCommentHandler({text, parent_id}){
 
     setLoadingState({
       ...loadingState,
@@ -328,14 +252,14 @@ const PostDetails = (props) => {
 
     getApi().post("/api/post/add-comment", newComment).then(r=>{
       if(r.status >= 200 && r.status < 400){
-        let updatePostDetail = {...postDetails}
+        let updatedComments = [...comments]
        
-        if(updatePostDetail.comments){
-          updatePostDetail.comments.push(r.data)
+        if(updatedComments){
+          updatedComments.push(r.data)
         } else {
-          updatePostDetail.comments = [r.data]
+          updatedComments = [r.data]
         }
-        setPostDetails(updatePostDetail)
+        setComments(updatedComments)
         
         setLoadingState({
           id: "add_comment",
@@ -361,6 +285,8 @@ const PostDetails = (props) => {
     })
   }
 
+  
+  
   function commentDeleteHandler(user_id, comment_id){
 
     if(authState && user_id !== authState._id){
@@ -427,16 +353,51 @@ const PostDetails = (props) => {
 
 
   }
+  
+  function toggleCommentReaction(comment_id){
+    let updatedComments = [...comments]
+    let commentIndex = updatedComments.findIndex(comment=>comment._id === comment_id);
+    if(commentIndex !== -1){
+      
+      let comment = updatedComments[commentIndex]
+      if(comment.likes){
+        let hasReactionIndex = comment.likes.indexOf(authState._id)
+        if(hasReactionIndex === -1){
+          
+          apis.post("/api/post/add-comment-reaction", { comment_id: comment_id }).then(res=>{
+            if(res.status === 201){
+              comment.likes.push(authState._id)
+              setComments(updatedComments)
+            }
+          }).catch(ex=>{})
+          
+        } else {
+          apis.post("/api/post/remove-comment-reaction", { comment_id: comment_id }).then(res=>{
+            if(res.status === 201){
+              comment.likes.splice(hasReactionIndex, 1)
+              setComments(updatedComments)
+            }
+          }).catch(ex=>{})
+          
+        }
+      }
+    
 
+    }
+  }
+  
   function renderPostComments(){
     return (
         <div>
           <label className="text-md mb-1 dark_subtitle" htmlFor="">Write a comment</label>
-          <AddComment onSubmit={postCommentHandler}  />
+          <AddComment onSubmit={addCommentHandler}  />
           <div className="">
-            {postDetails.comments.map(c=>(
-                <Comments onDeleteComment={commentDeleteHandler} authId={authState._id} comment={c} />
-            ))}
+            {comments && comments.length > 0 ? comments.map(c=>(
+                <Comments toggleCommentReaction={toggleCommentReaction} onDeleteComment={commentDeleteHandler} authId={authState._id} comment={c} />
+            )) : (
+              <h3>No comment posted yet</h3>
+              
+            )}
           </div>
         </div>
     )
@@ -453,13 +414,13 @@ const PostDetails = (props) => {
 
             <div className="flex items-center mb-2 ml-4">
               <FontAwesomeIcon icon={faEye} className="text-gray-dark-9" />
-              <h4 className="ml-1 text-sm">{postDetails.hits ? postDetails.hits.hits : 0} read</h4>
+              <h4 className="ml-1 text-sm">{postDetails.hits ? postDetails.hits.count : 0} read</h4>
             </div>
 
 
             <div className="flex items-center mb-2 ml-4">
               <FontAwesomeIcon icon={faComment} className="text-blue-500" />
-              <h4 className="ml-1 text-sm">{postDetails.comments ? postDetails.comments.length : 0} comments</h4>
+              <h4 className="ml-1 text-sm">{comments ? comments.length : 0} comments</h4>
             </div>
 
           </div>
@@ -475,14 +436,6 @@ const PostDetails = (props) => {
               ))}
             </ul>
           </div>
-
-          <div className="mt-6">
-            <div className="border-b border-gray-9 mb-4 " />
-
-            { renderPostComments() }
-          </div>
-
-
         </div>
     )
   }
@@ -494,6 +447,9 @@ const PostDetails = (props) => {
     })
   }
 
+  
+
+  
 
   return (
     <div className="container-1000 px-4 min-h-viewport">
@@ -537,8 +493,8 @@ const PostDetails = (props) => {
             <div className="mt-2 mb-4 subtitle text-sm">
               <FontAwesomeIcon icon={faClock} className="mr-1"/>
               <span className="dark_gray">Create at {" "}
-                {new Date(postDetails.created_at).toDateString()}
-                {" "} {new Date(postDetails.created_at).toLocaleTimeString()}
+                {new Date(postDetails.createdAt).toDateString()}
+                {" "} {new Date(postDetails.createdAt).toLocaleTimeString()}
                 </span>
             </div>
           </div>
@@ -552,9 +508,21 @@ const PostDetails = (props) => {
           {markDownContent.html && (
             <>
               {renderMarkdownContent()}
-              {renderPostFooter()}
+              {/*{renderPostFooter()}*/}
             </>
           )}
+  
+      
+          <div className="mt-6">
+            {renderPostFooter()}
+          </div>
+          
+          <div className="mt-6">
+            <div className="border-b border-gray-9 mb-4 " />
+            { renderPostComments() }
+          </div>
+          
+          
 
         </div>
       ) : (

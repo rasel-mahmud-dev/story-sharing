@@ -1,16 +1,9 @@
 import React, {Suspense} from 'react';
-import {Link, Route, Switch} from "react-router-dom";
-import ProgressBar from "react-topbar-progress-indicator";
+import {Link, Route} from "react-router-dom";
+
 import "./Login.scss"
 
-import {backend, baseBackend} from "../../apis";
-import ReactLazyPreload from "../../utils/ReactLazyPreload";
-import LoginStateContext from "./loginStateContext";
-
-const ForgetPassword = ReactLazyPreload(()=>import("./ForgetPassword"));
-const SetNewPassword = ReactLazyPreload(()=>import("./SetNewPassword"));
-const LoginWithEmail = ReactLazyPreload(()=>import("./LoginWithEmail"));
-const SignUp = ReactLazyPreload(()=>import("./SignUp"));
+import {backend} from "../../apis";
 
 
 const AllSignInHome = ()=>{
@@ -72,30 +65,11 @@ const AllSignIn = () => {
 	const [tryingEmail, setTryingEmail]  = React.useState("")
 	
 	
-	function renderNestedRoutes(){
-		return (
-			<div className="px-3">
-				<Switch>
-					<Suspense fallback={<ProgressBar/>}>
-						<Route exact={true} path="/auth/join" component={AllSignInHome} />
-						<Route exact={true} path="/auth/join/new" component={SignUp} />
-						<LoginStateContext.Provider value={{tryingEmail, setTryingEmail: (email)=> setTryingEmail(email) }}>
-							<Route exact={true} path="/auth/join/email" component={LoginWithEmail} />
-							<Route path="/auth/join/reset-password" component={ForgetPassword}  />
-						</LoginStateContext.Provider>
-						<Route path="/auth/join/new-password/:token" component={SetNewPassword} />
-					</Suspense>
-				</Switch>
-			</div>
-		)
-	}
-	
-	
 	return (
 		<div>
 			<div className="container-1200 min-h-viewport">
-				
-					{renderNestedRoutes()}
+					<AllSignInHome />
+					{/*{renderNestedRoutes()}*/}
 				{/*</LoginStateContext.Provider>*/}
 				
 			</div>

@@ -1,49 +1,15 @@
-import Base from"./Base";
+import mongoose from "mongoose";
 
-class Like extends Base{
-  
-  static tableName = "likes"
-  
+
+type LikeType = {
   _id?: string
-  post_id: string
-  likes: string[]
-  
-  constructor({ _id="", post_id, likes }) {
-    super(Like.tableName)
-    this.post_id = post_id;
-    this.likes = likes;
-    this._id = ""
-  }
-  
-  // @ts-ignore
-  // validationBeforeSave() {
-  //   let { tableName, ...otherValue } = this
-  //   return new Promise((resolve, reject)=>{
-  //     let user = Joi.object({
-  //       _id: Joi.optional(),
-  //       post_id: Joi.any().required(),
-  //       hits: Joi.number().required()
-  //     })
-  //     let isError = user.validate(
-  //       otherValue,
-  //       {abortEarly: false}
-  //     )
-  //     if(isError.error){
-  //       let r = {}
-  //       for (const detail of isError.error.details) {
-  //         r[detail.path[0]] = detail.message
-  //       }
-  //       resolve(r)
-  //     } else {
-  //       resolve(null)
-  //     }
-  //   })
-  // }
-  
-  //? overwrite in Base class save method...
-  // save() {
-  //   console.log("hello")
-  // }
+  postId: string
+  userId: string
 }
 
-export default Like
+const schemaObj: {[property in keyof LikeType]: any} = {
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  postId: { index: true, type: mongoose.Schema.Types.ObjectId, ref: "Post" },
+}
+
+mongoose.model("Like", new mongoose.Schema(schemaObj, {timestamps: true}))

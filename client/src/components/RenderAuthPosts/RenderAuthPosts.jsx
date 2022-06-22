@@ -55,8 +55,8 @@ const RenderAuthPosts = ({userPosts, _id, dispatch}) => {
 											<div className="action flex items-center">
 												
 													<div className="flex text-base">
-													<button onClick={() => addTopPost(post)} className="ml-2"><FontAwesomeIcon icon={faHeart}/></button>
-													<button onClick={() => addAllPost(post)} className="ml-2 font-bold">A</button>
+													{/*<button onClick={() => addTopPost(post)} className="ml-2"><FontAwesomeIcon icon={faHeart}/></button>*/}
+													{/*<button onClick={() => addAllPost(post)} className="ml-2 font-bold">A</button>*/}
 												</div>
 												
 												<div className="flex">

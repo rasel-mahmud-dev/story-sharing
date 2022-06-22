@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, useParams, useHistory} from "react-router-dom";
+import {useParams, useNavigate, useLocation} from "react-router-dom";
 
 import "./addPost.scss"
 import {fetchPostById, fetchPostMdContent, fetchRawMdContent} from "src/store/actions/postAction";
@@ -15,8 +15,9 @@ import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark.css"
 import Loader from "../../components/UI/Loader";
 import {CSSTransition} from "react-transition-group";
-import PreloadLink from "../../components/preloadLink/PreloadLink";
+import PreloadLink from "../../components/UI/Preload/Preload";
 import FileUploader from "./fileUploader/FileUploader";
+import queryString from "query-string";
 
 const AddPost = (props) => {
 
@@ -32,7 +33,7 @@ const AddPost = (props) => {
   })
   const imageInputRef = React.useRef(null)
 
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const [markdown_string, setMarkdown_string] = React.useState("")
 
@@ -47,6 +48,8 @@ const AddPost = (props) => {
   })
   
   const params = useParams()
+  const location = useLocation()
+  
 
   
   let m  = new MarkdownIt( {
@@ -63,10 +66,37 @@ const AddPost = (props) => {
     }
   })
 
+  
+  function fetchUpdatedPost(postId, isAndroid, cb){
+  
+    let path = isAndroid ? `/api/android/posts/${postId}` :  `/api/posts/${postId}`
+    api.get(path).then(response=>{
+      if(response.status === 200){
+        dispatch({
+          type: "FETCH_POST",
+          payload: response.data.post
+        })
+        cb(response.data.post)
+      }
+    })
+    
+    
+
+    
+  }
+  
   React.useEffect(()=>{
 
+    let isAndroid = false
     if(params.postId && params.postId !== "null"){
-      fetchPostById(params.postId, dispatch, (returnPost)=>{
+      
+      let h = queryString.parse(location.search)
+      if(h && h.w && h.w === "app"){
+        isAndroid = true
+      }
+  
+  
+      fetchUpdatedPost(params.postId, isAndroid, (returnPost)=>{
         
         setPost({
           ...post,
@@ -92,7 +122,8 @@ const AddPost = (props) => {
         }
         req.setRequestHeader('Content-type', 'application/json')
         req.send(JSON.stringify({
-          filePath: returnPost.path
+          filePath: returnPost.path,
+          post_id: params.postId
         }));
         
       })
@@ -121,15 +152,28 @@ const AddPost = (props) => {
     }
   }
   
+  
   async function addPostHandler(e){
-    e.preventDefault()
+  
+    let updateURL = ""
+    let createURL = ""
+    if(typeof e !== "string") {
+      updateURL = "/api/post/update-post"
+      createURL = "/api/post/add-post"
+      e.preventDefault()
+    } else {
+      updateURL = "/api/android/post/update-post"
+      createURL = "/api/android/post/add-post"
+    }
+    
     const { isUpdated, _id, title, tags, cover_url } = post
 
     if(title && title.trim() && tags.length > 0 && markdown_string){
 
       if(isUpdated) {
+        
 
-        getApi().post("/api/post/update-post", {
+        getApi().post(updateURL, {
           _id,
           title,
           tags,
@@ -146,7 +190,7 @@ const AddPost = (props) => {
             })
             setTimeout(()=>{
               let path = `/author/profile/${authState.username}/${authState._id}`
-              history.push(path)
+              navigate(path)
             }, 500)
           } else {
             setLoadingState({
@@ -174,7 +218,7 @@ const AddPost = (props) => {
           author_id: authState._id,
           cover: post.cover ? post.cover : ""
         }
-        getApi().post("/api/post/add-post", d)
+        getApi().post(createURL, d)
         .then(response=>{
           if(response.status < 400 && response.status >= 200){
             setLoadingState({
@@ -189,7 +233,7 @@ const AddPost = (props) => {
               //   type: "UPDATE_USER_PROFILE_POSTS",
               //   payload: { userId: authState._id, post: response.data }
               // })
-              history.push(path)
+              navigate(path)
             }, 500)
           } else{
             setLoadingState({
@@ -219,14 +263,14 @@ const AddPost = (props) => {
         isLoading: false,
       })
     }
-
-
+    
   }
 
   // Initialize a markdown parser
   const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-// Finish!
+  
+ // Finish!
   function handleEditorChange({ html, text }) {
     setMarkdown_string(text)
     // console.log('handleEditorChange', html, text);
@@ -300,7 +344,7 @@ const AddPost = (props) => {
           <div>
              <div>
                
-               <FileUploader onSetUrlToCover={onSetUrlToCover} />
+               {/*<FileUploader onSetUrlToCover={onSetUrlToCover} />*/}
                
                { loadingState.id === "photo_upload" && loadingState.isLoading && (
                    <div className="flex flex-col  items-center">
@@ -350,7 +394,13 @@ const AddPost = (props) => {
 
           </div>
           
-          <button onClick={addPostHandler} className="btn btn-primary dark:bg-dark-600 dark_subtitle">{post.isUpdated ? "Update" : "Add Post"}</button>
+         <div className="">
+           <button onClick={addPostHandler} className="btn btn-primary dark:bg-dark-600 dark_subtitle">{post.isUpdated ? "Update" : "Add Post"}</button>
+           <button type="button" onClick={(e)=>addPostHandler("app")}
+                   className="btn bg-primary text-white dark:bg-dark-600 dark_subtitle ml-3">
+             {post.isUpdated ? "Update Post For Android" : "Add Post For Android"}
+           </button>
+         </div>
 
         </div>
         
