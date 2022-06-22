@@ -12,13 +12,31 @@ Live Link https://rsl-my-blog.netlify.app/
 ### Preview screenshot
 
 ####  Homepage
-![preview-image](client/previews/preview-v10.png)
+![](thumbs/blog_home_1.jpg)
+![](thumbs/blog_home_2.jpg)
+![](thumbs/blog_home_dark_1.jpg)
+![](thumbs/blog_home_dark_2.jpg)
 
+
+
+![](thumbs/2022-03-29_125725.jpg)
 <br/>
 
-#### Product Filter Page
-![preview-image](client/previews/preview-v13.png)
+![](thumbs/blog_join_page_1.jpg)
+![](thumbs/blog_login_page_1.jpg)
+![](thumbs/blog_login_page_dark_1.jpg)
+![](thumbs/blog_pass_reset_page_1.jpg)
+![](thumbs/blog_user_profile_1.jpg)
 
 <br/>
+<br/>
 
+#### Post details Page
+![](thumbs/post_detail_dark_1.jpg)
+![](thumbs/post_detail_dark_2.jpg)
+![](thumbs/post_detail_dark_3.jpg)
+![](thumbs/search_1.jpg)
+![](thumbs/search_dark_2.jpg)
 
+![](thumbs/blog_dashboard_page_1.jpg)
+<br/>
