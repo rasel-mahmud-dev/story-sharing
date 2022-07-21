@@ -7,7 +7,7 @@ In This Project build I use Nodejs, React and Mongodb, Redis as a caching storag
 
 ### This Application under development
 
-Live Link https://rsl-my-blog.netlify.app/
+Live Link https://story-sharing.netlify.app
 
 ### Preview screenshot
 
